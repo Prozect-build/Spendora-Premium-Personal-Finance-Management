@@ -1,0 +1,89 @@
+<div class="profile-page anim-fade-in">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-section">
+        <div class="avatar">
+          <span class="material-icons-round">person</span>
+        </div>
+        <button class="btn-change-photo">
+          <span class="material-icons-round">camera_alt</span>
+        </button>
+      </div>
+      <div class="user-info">
+        <h3>{{ user()?.name || 'User' }}</h3>
+        <p>{{ user()?.email }}</p>
+      </div>
+    </div>
+
+    <div class="profile-body">
+      <div class="section-title">
+        <h4>Personal Information</h4>
+        <button class="btn-edit" (click)="toggleEdit()">
+          <span class="material-icons-round">{{ isEditing() ? 'close' : 'edit' }}</span>
+          {{ isEditing() ? 'Cancel' : 'Edit' }}
+        </button>
+      </div>
+
+      <form class="profile-form" (ngSubmit)="saveProfile()">
+        <div class="form-group">
+          <label>Full Name</label>
+          <div class="input-wrapper" [class.editable]="isEditing()">
+            <span class="material-icons-round">person_outline</span>
+            <input 
+              type="text" 
+              [readonly]="!isEditing()" 
+              [ngModel]="name()" 
+              (ngModelChange)="name.set($event)"
+              name="name"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <div class="input-wrapper" [class.editable]="isEditing()">
+            <span class="material-icons-round">mail_outline</span>
+            <input 
+              type="email" 
+              [readonly]="!isEditing()" 
+              [ngModel]="email()" 
+              (ngModelChange)="email.set($event)"
+              name="email"
+            />
+          </div>
+        </div>
+
+        @if (isEditing()) {
+          <button type="submit" class="btn-save anim-fade-in">
+            Save Changes
+          </button>
+        }
+      </form>
+
+      <div class="section-title margin-top">
+        <h4>Security</h4>
+      </div>
+      
+      <button class="btn-action logout" (click)="logout()">
+        <span class="material-icons-round">logout</span>
+        <span>Logout</span>
+      </button>
+
+      <button class="btn-action delete">
+        <span class="material-icons-round">delete_outline</span>
+        <span>Delete Account</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-stats">
+    <div class="stat-mini">
+      <label>Member Since</label>
+      <p>March 2024</p>
+    </div>
+    <div class="stat-mini">
+      <label>Account Status</label>
+      <p class="status-active">Active</p>
+    </div>
+  </div>
+</div>

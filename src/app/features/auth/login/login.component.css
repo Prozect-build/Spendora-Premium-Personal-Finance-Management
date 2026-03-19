@@ -1,0 +1,194 @@
+/* ── Auth Page Layout ────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-md);
+}
+
+/* ── Animated Background Orbs ────────────────────────────── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 500px; height: 500px;
+  background: var(--brand-primary);
+  top: -150px; left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px; height: 400px;
+  background: var(--brand-accent);
+  bottom: -100px; right: -80px;
+  animation-delay: 3s;
+}
+
+.orb-3 {
+  width: 300px; height: 300px;
+  background: var(--color-income);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 6s;
+  opacity: 0.07;
+}
+
+/* ── Auth Container ──────────────────────────────────────── */
+.auth-container {
+  position: relative;
+  z-index: var(--z-base);
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+/* ── Logo ────────────────────────────────────────────────── */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo-icon {
+  width: 44px; height: 44px;
+  background: var(--gradient-brand);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-brand);
+}
+
+.logo-icon .material-icons-round {
+  color: #fff;
+  font-size: 24px;
+}
+
+.logo-text {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Auth Card ───────────────────────────────────────────── */
+.auth-card {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  backdrop-filter: blur(20px);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.auth-header h1 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-xs);
+}
+
+.auth-header p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* ── Input with Icon ─────────────────────────────────────── */
+.auth-form { display: flex; flex-direction: column; gap: var(--space-md); }
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 18px !important;
+  pointer-events: none;
+}
+
+.form-input.with-icon {
+  padding-left: 44px;
+}
+
+/* ── Error State ─────────────────────────────────────────── */
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 10px 14px;
+  background: rgba(244, 63, 94, 0.1);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--color-expense);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 var(--space-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* ── Security Features ───────────────────────────────────── */
+.auth-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.auth-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.auth-feature .material-icons-round {
+  font-size: 14px !important;
+  color: var(--brand-primary);
+}
+
+/* ── Tagline ─────────────────────────────────────────────── */
+.auth-tagline {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+}

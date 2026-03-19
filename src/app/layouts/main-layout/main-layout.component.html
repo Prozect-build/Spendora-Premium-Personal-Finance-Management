@@ -1,0 +1,50 @@
+<div class="app-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><span class="material-icons-round">bolt</span></div>
+      <span class="logo-text">Spendora</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/dashboard" routerLinkActive="active" id="nav-dashboard">
+        <span class="material-icons-round">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" routerLink="/expenses" routerLinkActive="active" id="nav-expenses">
+        <span class="material-icons-round">receipt_long</span>
+        <span>Expenses</span>
+      </a>
+      <a class="nav-item" routerLink="/budgets" routerLinkActive="active" id="nav-budgets">
+        <span class="material-icons-round">pie_chart</span>
+        <span>Budgets</span>
+      </a>
+      <a class="nav-item" routerLink="/analytics" routerLinkActive="active" id="nav-analytics">
+        <span class="material-icons-round">bar_chart</span>
+        <span>Analytics</span>
+      </a>
+      <a class="nav-item" routerLink="/profile" routerLinkActive="active" id="nav-profile">
+        <span class="material-icons-round">person_outline</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-pill">
+        <div class="user-avatar">{{ initial() }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ userName() }}</span>
+          <span class="user-role">Free Plan</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-icon" (click)="logout()" title="Logout">
+        <span class="material-icons-round">logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

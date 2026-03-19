@@ -1,0 +1,134 @@
+<div class="analytics-page anim-fade-in">
+  <!-- Header Section -->
+  <div class="analytics-header">
+    <div class="title-group">
+      <h1>Financial Analytics</h1>
+      <p>Insights into your spending habits and financial growth</p>
+    </div>
+    <div class="date-picker-mock">
+      <span class="material-icons-round">calendar_today</span>
+      <span>March 2024</span>
+      <span class="material-icons-round">expand_more</span>
+    </div>
+  </div>
+
+  <!-- Top Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card balance-card">
+      <div class="stat-icon">
+        <span class="material-icons-round">account_balance_wallet</span>
+      </div>
+      <div class="stat-info">
+        <label>Total Balance</label>
+        <h3>${{ totalBalance() | number:'1.2-2' }}</h3>
+      </div>
+      <div class="stat-trend positive">
+        <span class="material-icons-round">trending_up</span>
+        <span>+12.5%</span>
+      </div>
+    </div>
+
+    <div class="stat-card income-card">
+      <div class="stat-icon">
+        <span class="material-icons-round">arrow_downward</span>
+      </div>
+      <div class="stat-info">
+        <label>Monthly Income</label>
+        <h3>${{ monthlyIncome() | number:'1.2-2' }}</h3>
+      </div>
+      <div class="stat-trend positive">
+        <span class="material-icons-round">trending_up</span>
+        <span>+5.2%</span>
+      </div>
+    </div>
+
+    <div class="stat-card expense-card">
+      <div class="stat-icon">
+        <span class="material-icons-round">arrow_upward</span>
+      </div>
+      <div class="stat-info">
+        <label>Monthly Expense</label>
+        <h3>${{ monthlyExpense() | number:'1.2-2' }}</h3>
+      </div>
+      <div class="stat-trend negative">
+        <span class="material-icons-round">trending_down</span>
+        <span>-2.1%</span>
+      </div>
+    </div>
+
+    <div class="stat-card savings-card">
+      <div class="stat-icon">
+        <span class="material-icons-round">savings</span>
+      </div>
+      <div class="stat-info">
+        <label>Savings Rate</label>
+        <h3>{{ savingsRate() }}%</h3>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="savingsRate()"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-layout">
+    <!-- Spending Breakdown -->
+    <div class="chart-card category-breakdown">
+      <div class="card-header">
+        <h2>Spending by Category</h2>
+        <button class="btn-icon">
+          <span class="material-icons-round">more_vert</span>
+        </button>
+      </div>
+      
+      <div class="category-list">
+        @for (cat of spendingCategories(); track cat.name) {
+          <div class="category-item">
+            <div class="cat-info">
+              <div class="cat-dot" [style.background-color]="cat.color"></div>
+              <span class="cat-name">{{ cat.name }}</span>
+            </div>
+            <div class="cat-values">
+              <span class="cat-amount">${{ cat.amount | number:'1.2-2' }}</span>
+              <span class="cat-percent">{{ cat.percentage }}%</span>
+            </div>
+            <div class="cat-progress">
+              <div class="progress-fill" [style.width.%]="cat.percentage" [style.background-color]="cat.color"></div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Spending Trend Mockup -->
+    <div class="chart-card spending-chart">
+      <div class="card-header">
+        <h2>Income vs Expenses</h2>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div class="legend-dot income"></div>
+            <span>Income</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot expense"></div>
+            <span>Expense</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chart-placeholder">
+        <!-- Visual representation of a bar chart -->
+        <div class="bar-chart">
+          @for (trend of recentTrends(); track trend.month) {
+            <div class="bar-group">
+              <div class="bars">
+                <div class="bar income-bar" [style.height.px]="trend.income / 50"></div>
+                <div class="bar expense-bar" [style.height.px]="trend.expense / 50"></div>
+              </div>
+              <span class="bar-label">{{ trend.month }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

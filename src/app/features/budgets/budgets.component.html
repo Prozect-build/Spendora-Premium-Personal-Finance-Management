@@ -1,0 +1,75 @@
+<div class="budgets-page anim-fade-in">
+  <header class="topbar">
+      <div>
+        <h1 class="page-title">Budgets</h1>
+        <p class="page-subtitle">Track your spending against monthly limits</p>
+      </div>
+      <button class="btn btn-primary" id="add-budget-btn">
+        <span class="material-icons-round">add</span>
+        Set Budget
+      </button>
+    </header>
+
+    <!-- Budget Summary -->
+    <div class="budget-summary-row">
+      <div class="bsummary-card">
+        <div class="bs-label">Total Allocated</div>
+        <div class="bs-value">{{ formatCurrency(totalAllocated) }}</div>
+      </div>
+      <div class="bsummary-card">
+        <div class="bs-label">Total Spent</div>
+        <div class="bs-value text-expense">{{ formatCurrency(totalSpent) }}</div>
+      </div>
+      <div class="bsummary-card">
+        <div class="bs-label">Remaining</div>
+        <div class="bs-value text-income">{{ formatCurrency(totalAllocated - totalSpent) }}</div>
+      </div>
+      <div class="bsummary-card">
+        <div class="bs-label">Over Budget</div>
+        <div class="bs-value" [style.color]="overBudget > 0 ? 'var(--color-expense)' : 'var(--color-income)'">
+          {{ overBudget }} categories
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Cards Grid -->
+    <div class="budget-grid">
+      @for (budget of budgets(); track budget.id) {
+        <div class="budget-card card">
+          <div class="budget-card-header">
+            <div class="bc-icon" [style.background]="budget.category.color + '22'">
+              <span class="material-icons-round" [style.color]="budget.category.color">{{ budget.category.icon }}</span>
+            </div>
+            <div class="bc-title">
+              <span class="bc-name">{{ budget.category.name }}</span>
+              <span class="bc-month">February 2025</span>
+            </div>
+            @if (budget.percentage >= 90) {
+              <span class="badge badge-expense">Over!</span>
+            } @else if (budget.percentage >= 70) {
+              <span class="badge badge-warning">Near</span>
+            } @else {
+              <span class="badge badge-income">On Track</span>
+            }
+          </div>
+
+          <div class="bc-amounts">
+            <span class="bc-spent" [style.color]="getBudgetColor(budget.percentage)">{{ formatCurrency(budget.spentAmount) }}</span>
+            <span class="bc-limit">of {{ formatCurrency(budget.limitAmount) }}</span>
+          </div>
+
+          <div class="progress-bar">
+            <div class="progress-fill"
+              [style.width.%]="Math.min(budget.percentage, 100)"
+              [style.background]="getBudgetColor(budget.percentage)">
+            </div>
+          </div>
+
+          <div class="bc-footer">
+            <span class="bc-pct" [style.color]="getBudgetColor(budget.percentage)">{{ budget.percentage }}% used</span>
+            <span class="bc-remaining">{{ formatCurrency(budget.limitAmount - budget.spentAmount) }} left</span>
+          </div>
+        </div>
+      }
+    </div>
+</div>

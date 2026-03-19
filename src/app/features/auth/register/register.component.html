@@ -1,0 +1,119 @@
+<div class="auth-page">
+
+  <!-- Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="auth-container anim-fade-up">
+
+    <!-- Logo -->
+    <div class="auth-logo">
+      <div class="logo-icon">
+        <span class="material-icons-round">bolt</span>
+      </div>
+      <span class="logo-text">Spendora</span>
+    </div>
+
+    <!-- Card -->
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Create account 🚀</h1>
+        <p>Join Spendora to manage your finances</p>
+      </div>
+
+      <form class="auth-form" (ngSubmit)="onRegister()" #registerForm="ngForm">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Full Name</label>
+          <div class="input-wrapper">
+            <span class="material-icons-round input-icon">person_outline</span>
+            <input
+              id="name"
+              type="text"
+              class="form-input with-icon"
+              placeholder="John Doe"
+              [ngModel]="name()"
+              (ngModelChange)="name.set($event)"
+              name="name"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <div class="input-wrapper">
+            <span class="material-icons-round input-icon">mail_outline</span>
+            <input
+              id="email"
+              type="email"
+              class="form-input with-icon"
+              placeholder="you@example.com"
+              [ngModel]="email()"
+              (ngModelChange)="email.set($event)"
+              name="email"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="material-icons-round input-icon">lock_outline</span>
+            <input
+              id="password"
+              type="password"
+              class="form-input with-icon"
+              placeholder="Min. 6 characters"
+              [ngModel]="password()"
+              (ngModelChange)="password.set($event)"
+              name="password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        @if (errorMsg()) {
+          <div class="auth-error anim-fade-in">
+            <span class="material-icons-round icon-sm">error_outline</span>
+            {{ errorMsg() }}
+          </div>
+        }
+
+        <button
+          id="register-btn"
+          type="submit"
+          class="btn btn-primary btn-lg w-full"
+          [disabled]="isLoading() || registerForm.invalid"
+        >
+          @if (isLoading()) {
+            <div class="spinner"></div>
+            Creating account...
+          } @else {
+            <span class="material-icons-round">person_add</span>
+            Create Account
+          }
+        </button>
+
+      </form>
+
+      <div class="auth-divider">
+        <span>Trusted financial companion</span>
+      </div>
+
+      <div class="auth-footer" style="text-align: center; margin-top: 20px;">
+        <p style="color: rgba(255,255,255,0.6); font-size: 14px;">
+          Already have an account? 
+          <a routerLink="/login" style="color: var(--primary); font-weight: 600; text-decoration: none; cursor: pointer;">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <p class="auth-tagline">Track expenses. Build habits. Grow wealth.</p>
+  </div>
+</div>

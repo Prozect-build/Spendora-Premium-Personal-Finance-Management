@@ -1,0 +1,172 @@
+<div class="expenses-page anim-fade-in">
+  <!-- Header -->
+  <header class="topbar">
+      <div>
+        <h1 class="page-title">Transactions</h1>
+        <p class="page-subtitle">Manage all your income & expenses in one place</p>
+      </div>
+      <button class="btn btn-primary" id="add-new-expense-btn" (click)="openModal()">
+        <span class="material-icons-round">add</span>
+        Add Transaction
+      </button>
+    </header>
+
+    <!-- Summary Row -->
+    <div class="txn-summary-row">
+      <div class="txn-summary-card income">
+        <span class="material-icons-round">south_west</span>
+        <div>
+          <div class="s-label">Total Income</div>
+          <div class="s-value">{{ formatCurrency(totalIncome) }}</div>
+        </div>
+      </div>
+      <div class="txn-summary-card expense">
+        <span class="material-icons-round">north_east</span>
+        <div>
+          <div class="s-label">Total Spent</div>
+          <div class="s-value">{{ formatCurrency(totalExpense) }}</div>
+        </div>
+      </div>
+      <div class="txn-summary-card balance">
+        <span class="material-icons-round">account_balance_wallet</span>
+        <div>
+          <div class="s-label">Net Balance</div>
+          <div class="s-value">{{ formatCurrency(totalIncome - totalExpense) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab" [class.active]="filterType() === 'ALL'"     (click)="filterType.set('ALL')">All</button>
+      <button class="filter-tab" [class.active]="filterType() === 'EXPENSE'" (click)="filterType.set('EXPENSE')">Expenses</button>
+      <button class="filter-tab" [class.active]="filterType() === 'INCOME'"  (click)="filterType.set('INCOME')">Income</button>
+    </div>
+
+    <!-- Table -->
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div class="table-container" style="border: none; border-radius: 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Transaction</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th style="text-align: right;">Amount</th>
+              <th style="text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (txn of filteredExpenses; track txn.id) {
+              <tr class="anim-fade-up">
+                <td>
+                  <div class="txn-cell">
+                    <div class="txn-icon-sm" [style.background]="txn.category.color + '22'">
+                      <span class="material-icons-round" [style.color]="txn.category.color">{{ txn.category.icon }}</span>
+                    </div>
+                    <div>
+                      <div class="txn-name">{{ txn.title }}</div>
+                      @if (txn.note) { <div class="txn-note">{{ txn.note }}</div> }
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge badge-brand" style="font-size: 11px;">{{ txn.category.name }}</span>
+                </td>
+                <td style="color: var(--text-muted); font-size: 13px;">{{ txn.date }}</td>
+                <td>
+                  <span class="badge" [class.badge-income]="txn.type === 'INCOME'" [class.badge-expense]="txn.type === 'EXPENSE'">
+                    {{ txn.type }}
+                  </span>
+                </td>
+                <td style="text-align: right; font-weight: 700;" [class.text-income]="txn.type === 'INCOME'" [class.text-expense]="txn.type === 'EXPENSE'">
+                  {{ txn.type === 'INCOME' ? '+' : '-' }}{{ formatCurrency(txn.amount) }}
+                </td>
+                <td style="text-align: center;">
+                  <button class="btn btn-danger btn-sm" [id]="'delete-' + txn.id" (click)="deleteExpense(txn.id)">
+                    <span class="material-icons-round icon-sm">delete_outline</span>
+                  </button>
+                </td>
+              </tr>
+            }
+            @empty {
+              <tr>
+                <td colspan="6" style="text-align:center; padding: 48px; color: var(--text-muted);">
+                  <span class="material-icons-round" style="font-size: 48px; display: block; margin-bottom: 8px;">receipt_long</span>
+                  No transactions found
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+<!-- ── Add Expense Modal ── -->
+@if (showModal()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Add Transaction</h3>
+        <button class="btn btn-ghost btn-icon btn-sm" id="close-modal-btn" (click)="closeModal()">
+          <span class="material-icons-round">close</span>
+        </button>
+      </div>
+
+      <!-- Type Toggle -->
+      <div class="type-toggle">
+        <button class="type-btn" [class.expense-active]="form().type === 'EXPENSE'" (click)="updateForm('type', 'EXPENSE')">
+          <span class="material-icons-round">north_east</span> Expense
+        </button>
+        <button class="type-btn" [class.income-active]="form().type === 'INCOME'" (click)="updateForm('type', 'INCOME')">
+          <span class="material-icons-round">south_west</span> Income
+        </button>
+      </div>
+
+      <div class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Title</label>
+          <input id="expense-title" type="text" class="form-input" placeholder="e.g. Lunch at Restaurant"
+            [value]="form().title" (input)="updateForm('title', $any($event.target).value)" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Amount (₹)</label>
+            <input id="expense-amount" type="number" class="form-input" placeholder="0.00" min="0"
+              [value]="form().amount" (input)="updateForm('amount', $any($event.target).value)" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input id="expense-date" type="date" class="form-input"
+              [value]="form().date" (input)="updateForm('date', $any($event.target).value)" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select id="expense-category" class="form-select"
+            [value]="form().categoryId" (change)="updateForm('categoryId', +$any($event.target).value)">
+            @for (cat of categories(); track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Note (optional)</label>
+          <input id="expense-note" type="text" class="form-input" placeholder="Any additional notes..."
+            [value]="form().note" (input)="updateForm('note', $any($event.target).value)" />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-primary" id="save-expense-btn" (click)="saveExpense()"
+          [disabled]="!form().title || !form().amount">
+          <span class="material-icons-round">save</span>
+          Save Transaction
+        </button>
+      </div>
+    </div>
+  </div>
+}
